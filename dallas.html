@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Fun Facts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .fact-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .fact-text {
+            font-size: 1.2em;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            border-color: #bbb;
+        }
+
+        .stats {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .fact-counter {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 0 5px;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .fact-text {
+                font-size: 1.05em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Fun Facts</h1>
+            <p>Discover fascinating facts from across the world</p>
+        </div>
+
+        <div class="fact-box">
+            <span class="category-badge" id="category">Science</span>
+            <p class="fact-text" id="factText">Click the button below to reveal a random fun fact!</p>
+            <div class="stats">
+                <span class="fact-counter">Facts viewed: <strong id="counter">0</strong></span>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" onclick="getRandomFact()">Get Random Fact</button>
+            <button class="btn-secondary" onclick="location.reload()">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        const facts = {
+            Science: [
+                "Honey never spoils. Archaeologists have found 3000-year-old honey in Egyptian tombs that was still edible!",
+                "A day on Venus is longer than its year. Venus takes 243 Earth days to rotate once, but only 225 days to orbit the sun.",
+                "Octopuses have three hearts and blue blood. Two hearts pump blood to the gills, and one pumps it to the rest of the body.",
+                "The Eiffel Tower can be 15 cm taller during summer due to thermal expansion of the iron.",
+                "Bananas are berries, but strawberries aren't. Botanically speaking, berries come from the ovary of a single flower.",
+                "A single bolt of lightning is hotter than the surface of the sun, reaching about 30,000 Kelvin.",
+                "Tardigrades (water bears) can survive in space. These microscopic animals can withstand extreme temperatures and radiation."
+            ],
+            History: [
+                "Oxford University is older than the Aztec Empire. Oxford was established around 1096, while the Aztec Empire was founded in 1345.",
+                "Napoleon wasn't actually short. He was 5'7\", which was average height for the time.",
+                "Cleopatra lived closer to the invention of the iPhone than to the construction of the Great Pyramid.",
+                "The Great Wall of China is not visible from space with the naked eye.",
+                "Tutankhamun died around age 18 and was quickly entombed, preserving his tomb.",
+                "Vikings used to give kittens as wedding gifts instead of money.",
+                "Humans have only existed for 300,000 years, but dinosaurs ruled Earth for 165 million years."
+            ],
+            Nature: [
+                "A group of flamingos is called a 'flamboyance'.",
+                "Sloths only defecate once a week and lose up to 30% of their body weight when they do.",
+                "Butterflies taste with their feet to find out whether the plant they sit on is good to lay eggs on.",
+                "A giraffe's neck contains the same number of vertebrae as a human's (seven).",
+                "Penguins propose to their mates with a pebble.",
+                "Some jellyfish are biologically immortal and age in reverse.",
+                "An octopus has nine brains and can taste with its arms."
+            ],
+            Technology: [
+                "The first webcam was created to monitor a coffee pot at Cambridge University.",
+                "The '@' symbol in email is called 'at' in English but has different names worldwide.",
+                "The domain 'symbolics.com' was registered in 1985 and is still active, making it the oldest domain still in use.",
+                "A typical cloud data center uses as much electricity as a city of 180,000 people.",
+                "The first mobile phone call was made in 1973 and lasted just 3 minutes.",
+                "Over 6,000 new computer viruses are detected every day.",
+                "The average person spends about 90,000 hours at work in their lifetime."
+            ],
+            Sports: [
+                "There are more than 400 different types of martial arts in the world.",
+                "Michael Phelps ate about 12,000 calories a day during training for the Olympics.",
+                "A golf ball has 336 dimples on its surface.",
+                "Usain Bolt's fastest speed during a 100m sprint was 44.72 km/h.",
+                "Tennis balls are only yellow since 1972; before that, they were white.",
+                "In badminton, the shuttlecock is called a 'birdie'.",
+                "The first modern Olympics had only 43 events and were held in Athens in 1896."
+            ],
+            Health: [
+                "Your stomach produces a new lining every 3-5 days to protect itself from its own acid.",
+                "The human body contains about 37.2 trillion cells.",
+                "It takes 17 muscles to smile and 43 to frown.",
+                "Humans share 50% of their DNA with bananas.",
+                "Your nose can detect over 1 trillion different scents.",
+                "The only part of your body that doesn't have blood supply is the cornea of your eye.",
+                "Laughter increases endorphins and can temporarily relieve pain."
+            ],
+            Geography: [
+                "Russia has 11 time zones, more than any other country.",
+                "The Dead Sea is the lowest point on Earth at 1,410 feet below sea level.",
+                "Greenland is not green; it's covered in ice. Iceland is more green.",
+                "Mount Everest grows about 4mm per year due to the collision of tectonic plates.",
+                "The Sahara wasn't always a desert; it was a lush, green landscape 6,000 years ago.",
+                "More people visit the Eiffel Tower annually than live in France.",
+                "The Pacific Ocean is larger than all the land on Earth combined."
+            ],
+            Psychology: [
+                "Your brain uses 20% of your body's energy despite being only 2% of your body weight.",
+                "We forget 90% of our dreams within minutes of waking up.",
+                "The average person has about 70,000 thoughts per day.",
+                "Blue is the most calming color and is often used in hospitals.",
+                "People are more productive in the morning than in the afternoon.",
+                "Your brain can't distinguish between a real experience and an imagined one.",
+                "Listening to music releases dopamine in your brain, creating feelings of pleasure."
+            ]
+        };
+
+        let viewCount = 0;
+
+        function getRandomFact() {
+            const categories = Object.keys(facts);
+            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+            const categoryFacts = facts[randomCategory];
+            const randomFact = categoryFacts[Math.floor(Math.random() * categoryFacts.length)];
+
+            const categoryBadge = document.getElementById('category');
+            const factText = document.getElementById('factText');
+            const counter = document.getElementById('counter');
+
+            categoryBadge.textContent = randomCategory;
+            categoryBadge.style.animation = 'none';
+            setTimeout(() => {
+                categoryBadge.style.animation = 'slideIn 0.5s ease-in-out';
+            }, 10);
+
+            factText.style.animation = 'none';
+            setTimeout(() => {
+                factText.textContent = randomFact;
+                factText.style.animation = 'slideIn 0.5s ease-in-out';
+            }, 10);
+
+            viewCount++;
+            counter.textContent = viewCount;
+        }
+
+        window.addEventListener('load', getRandomFact);
+    </script>
+</body>
+</html>
